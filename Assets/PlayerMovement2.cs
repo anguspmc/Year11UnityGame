@@ -40,6 +40,9 @@ public class PlayerMovement2 : MonoBehaviour
         }else{
             anim.SetInteger("Jump", 0);
         }
+        if (Input.GetKeyDown ("r")){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
 
