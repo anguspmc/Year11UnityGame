@@ -8,8 +8,8 @@ public class PlayerMovement2 : MonoBehaviour
 
     public CharacterController controller;
     public float speed = 12f;
-    public float gravity = -9.8f;
-    public float jumpHeight = 30f;
+    public float gravity = -20f;
+    public float jumpHeight = 3f;
 
     Vector3 velocity;
 
@@ -36,12 +36,17 @@ public class PlayerMovement2 : MonoBehaviour
 
         if (Input.GetKeyDown ("space") && Mathf.Abs(controller.velocity.y) <0.001f){
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            anim.SetInteger("Jump", 1);
-        }else{
-            anim.SetInteger("Jump", 0);
+            anim.SetBool("Jump", true);
+        }else if(Mathf.Abs(controller.velocity.y) <0.001f){
+            anim.SetBool("Jump", false);
         }
         if (Input.GetKeyDown ("r")){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        if (Input.GetAxis("Vertical") > 0){
+            anim.SetBool("Walking", true);
+        }else {
+            anim.SetBool("Walking", false);
         }
     }
 

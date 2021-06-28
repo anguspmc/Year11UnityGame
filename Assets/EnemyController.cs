@@ -9,15 +9,11 @@ public class EnemyController : MonoBehaviour
     public float gravity = -9.8f;
     public float MoveSpeed = 2f;
     public CharacterController controller;
-    Transform target;
-    Transform spawnPoint;
+    public Transform target;
     Vector3 velocity;
 
 
     void Start(){
-
-        target = PlayerManager.instance.player.transform;
-        spawnPoint = EnemyManager.instance.spawnPoint.transform;
     }
 
 
@@ -25,21 +21,20 @@ public class EnemyController : MonoBehaviour
 
         if(Vector2.Distance(transform.position, target.position) <= LookRadius) {
             transform.LookAt(target);
-        }else{
-            transform.LookAt(spawnPoint);
+            Vector3 eulerAngles = transform.rotation.eulerAngles;
+            eulerAngles = new Vector3(0, eulerAngles.y, 0);
+            transform.rotation = Quaternion.Euler(eulerAngles);
+
+
+            Vector3 move = transform.forward;
+            controller.Move(move * MoveSpeed * Time.deltaTime);
+
+            velocity.y += gravity * Time.deltaTime;
+
+            controller.Move(velocity * Time.deltaTime);
         }
 
-        Vector3 eulerAngles = transform.rotation.eulerAngles;
-        eulerAngles = new Vector3(0, eulerAngles.y, 0);
-        transform.rotation = Quaternion.Euler(eulerAngles);
-
-
-        Vector3 move = transform.forward;
-        controller.Move(move * MoveSpeed * Time.deltaTime);
-
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
+        
     }
 
     void OnDrawGizmosSelected(){
